@@ -1,4 +1,4 @@
-import { skip, trim, findTags } from '~/chunks';
+import { skip, trim, findTags } from '../chunks';
 
 const rtextbefore = /\S[ ]*$/;
 const rtextafter = /^[ ]*\S/;
@@ -9,16 +9,17 @@ const rfencebeforeinside = /^```[a-z]*\n/;
 const rfenceafter = /^\n?```/;
 const rfenceafterinside = /\n```$/;
 
-export default function codeblock(chunks) {
+export default function codeblock(chunks, isInline = false) {
   const newlined = rnewline.test(chunks.selection);
   const trailing = rtextafter.test(chunks.after);
   const leading = rtextbefore.test(chunks.before);
   const outfenced = rfencebefore.test(chunks.before) && rfenceafter.test(chunks.after);
 
-  if (outfenced || newlined || !(leading || trailing)) {
+  if (isInline) {
+    return inline(chunks);
+  } else {
     return block(chunks, outfenced);
   }
-  return inline(chunks);
 }
 
 export function isCodeblock(chunks) {

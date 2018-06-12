@@ -20,8 +20,10 @@ export function applyCommand(editorState, command, metadata) {
       return hr(state);
     case 'quote':
       return quote(state);
-    case 'code':
-      return code(state);
+    case 'code-block':
+      return code(state, false);
+    case 'code-inline':
+      return code(state, true);
     case 'notebook':
       return notebook(state, metadata);
     case 'ul':

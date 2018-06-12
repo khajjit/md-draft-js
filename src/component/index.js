@@ -1,10 +1,10 @@
-import isKeyCombo from 'is-key-combo';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { commands } from '~/utils/constants';
-import { getChunks } from '~/chunks';
-import { setSelection } from '~/utils/selection';
-import { getText } from '~/state';
+import isKeyCombo from '../../modules/is-key-combo';
+
+import { commands } from '../utils/constants';
+import { getChunks } from '../chunks';
+import { setSelection } from '../utils/selection';
+import { getText } from '../state';
 
 export default class Editor extends React.Component {
   static defaultProps = {
@@ -13,16 +13,6 @@ export default class Editor extends React.Component {
     onChange: () => {},
     onKeyCommand: () => {},
     commands
-  };
-
-  static propTypes = {
-    autoFocus: PropTypes.bool,
-    editorState: PropTypes.object,
-    className: PropTypes.string,
-    name: PropTypes.string,
-    onChange: PropTypes.func,
-    onKeyCommand: PropTypes.func,
-    commands: PropTypes.array
   };
 
   constructor(props) {
@@ -75,7 +65,6 @@ export default class Editor extends React.Component {
 
     return (
       <textarea
-        data-test-id="editor-text-area"
         autoFocus={autoFocus}
         ref={(c) => { this.textarea = c; }}
         id={name}

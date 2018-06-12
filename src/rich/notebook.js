@@ -1,4 +1,4 @@
-import { skip } from '~/chunks';
+import { skip } from '../chunks';
 
 const rtextbefore = /\S[ ]*$/;
 const rtextafter = /^[ ]*\S/;

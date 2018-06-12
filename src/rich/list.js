@@ -1,6 +1,6 @@
-import many from '~/utils/many';
-import { skip, trim, findTags } from '~/chunks';
-import { settings } from '~/utils/constants';
+import many from '../utils/many';
+import { skip, trim, findTags } from '../chunks';
+import { settings } from '../utils/constants';
 import { wrap, unwrap } from './wrapping';
 
 const rprevious = /(\n|^)(([ ]{0,3}([*+-]|\d+[.])[ \t]+.*)(\n.+|\n{2,}([*+-].*|\d+[.])[ \t]+.*|\n{2,}[ \t]+\S.*)*)\n*$/;

@@ -1,5 +1,5 @@
-import { settings } from '~/utils/constants';
-import { skip } from '~/chunks';
+import { settings } from '../utils/constants';
+import { skip } from '../chunks';
 import { wrap, unwrap } from './wrapping';
 
 const rtrailblankline = /(>[ \t]*)$/;

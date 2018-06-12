@@ -1,5 +1,5 @@
-import parseLinkInput from 'parse-link-input';
-import { trim, findTags } from '~/chunks';
+import parseLinkInput from '../../modules/parse-link-input';
+import { trim, findTags } from '../chunks';
 
 const rdefinitions = /^[ ]{0,3}\[((?:attachment-)?\d+)]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+|$)/gm;
 const rattachment = /^attachment-(\d+)$/i;

@@ -1,4 +1,4 @@
-import { trim } from '~/chunks';
+import { trim } from '../chunks';
 
 export default function italic(chunks) {
   const rleading = /^(_*)/;

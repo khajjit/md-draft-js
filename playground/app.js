@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import commands from './commands';
 import { Editor, EditorState, RichUtils } from '../src';
-import { isApplied } from '~/rich';
+import { isApplied } from '../src/rich';
 
 const content = '# Sample title\n\nYour content goes here.';
 
@@ -23,8 +23,8 @@ export default class MyEditor extends React.Component {
     }
   }
 
-  onClickCommand(command) {
-    this.onChange(RichUtils.applyCommand(this.state.editorState, command));
+  onClickCommand(command, metadata) {
+    this.onChange(RichUtils.applyCommand(this.state.editorState, command, metadata));
   }
 
   onLinkClick() {
@@ -47,18 +47,18 @@ export default class MyEditor extends React.Component {
     return (
       <div className="editor">
         <div className="editor-buttons">
-          {commands.map(({ command, label, icon }, key) => (
+          {commands.map(({ command, metadata, label, icon }, key) => (
             <button
               key={key}
               className={classNames('editor-action', isApplied(this.state.editorState, command) ? 'active' : '')}
-              onClick={this.onClickCommand.bind(this, command)}
+              onClick={this.onClickCommand.bind(this, command, metadata)}
               aria-label="Bold"
             >
               <span
                 key={`span-${key}`}
-                className={`glyphicon glyphicon-${icon || command}`}
                 aria-hidden="true"
-              />
+              >{label}
+              </span>
             </button>
           ))}
           <button

@@ -1,4 +1,4 @@
-import { skip } from '~/chunks';
+import { skip } from '../chunks';
 
 export default function hr(chunks) {
   const result = Object.assign({}, chunks);

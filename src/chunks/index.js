@@ -1,6 +1,6 @@
-import many from '~/utils/many';
-import fixEOL from '~/utils/fixEOL';
-import { getSelection } from '~/utils/selection';
+import many from '../utils/many';
+import fixEOL from '../utils/fixEOL';
+import { getSelection } from '../utils/selection';
 import extendRegExp from './extendRegExp';
 
 export function getChunks(textarea) {
