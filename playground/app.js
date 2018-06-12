@@ -28,11 +28,7 @@ export default class MyEditor extends React.Component {
   }
 
   onLinkClick() {
-    const link = global.prompt('Link URL:');
-
-    if (link) {
-      this.onChange(RichUtils.applyCommand(this.state.editorState, 'link', link));
-    }
+    this.onChange(RichUtils.applyCommand(this.state.editorState, 'link', 'url'));
   }
 
   onImageClick() {
