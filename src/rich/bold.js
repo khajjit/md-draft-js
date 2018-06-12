@@ -35,13 +35,17 @@ export default function bold(chunks) {
 }
 
 export function isBold(chunks) {
-  const rleading = /^(\**)/;
-  const rtrailing = /(\**$)/;
-  const rnewlines = /\n{2,}/g;
-  const result = trim(chunks);
-  const leadStars = rtrailing.exec(result.before)[0];
-  const trailStars = rleading.exec(result.after)[0];
-  const fence = Math.min(leadStars.length, trailStars.length);
+  let outfencedAfter = false;
+  let outfencedBefore = false;
+  const matchBefore = chunks.before.match(/\*\*/g);
+  const matchAfter = chunks.after.match(/\*\*/g);
 
-  return fence >= 2 || (!result.selection.replace(rnewlines, '\n') && trailStars);
+  if (matchBefore && matchBefore.length % 2) {
+    outfencedAfter = true;
+  }
+  if (matchAfter && matchAfter.length % 2) {
+    outfencedBefore = true;
+  }
+
+  return outfencedAfter && outfencedBefore;
 }

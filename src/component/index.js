@@ -1,6 +1,6 @@
 import React from 'react';
-import isKeyCombo from '../../modules/is-key-combo';
 
+import { handleKey } from '../utils/handleKey';
 import { commands } from '../utils/constants';
 import { getChunks } from '../chunks';
 import { setSelection } from '../utils/selection';
@@ -41,7 +41,7 @@ export default class Editor extends React.Component {
 
   handleKeyDown(e) {
     this.props.commands.forEach((command) => {
-      if (command.combo && isKeyCombo(e, command.combo)) {
+      if (command.combo && handleKey(e, command.combo)) {
         e.preventDefault();
         this.props.onKeyCommand(command);
       }

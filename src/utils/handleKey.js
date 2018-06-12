@@ -4,9 +4,7 @@ const keymap = {
   32: 'space'
 };
 
-module.exports = isKeyCombo;
-
-function isKeyCombo(e, combo) {
+export function handleKey(e, combo) {
   const keys = [];
   const key = getKey(e.which || e.keyCode || e.charCode);
   const comboArr = combo.split('+');

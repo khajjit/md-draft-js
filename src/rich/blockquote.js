@@ -9,6 +9,10 @@ const rendtag = /^(((\n|^)(\n[ \t]*)*>(.+\n)*.*)+(\n[ \t]*)*)/;
 const rleadbracket = /^\n((>|\s)*)\n/;
 const rtrailbracket = /\n((>|\s)*)\n$/;
 
+export function isBlockQoute(chunks) {
+  return !!chunks.before.match(/[/\n][>] (.*)$/g);
+}
+
 export default function blockquote(chunks) {
   let match = '';
   let leftOver = '';

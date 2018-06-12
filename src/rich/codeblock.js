@@ -9,6 +9,38 @@ const rfencebeforeinside = /^```[a-z]*\n/;
 const rfenceafter = /^\n?```/;
 const rfenceafterinside = /\n```$/;
 
+export function isCodeInline(chunks) {
+  let outfencedAfter = false;
+  let outfencedBefore = false;
+  const matchBefore = chunks.before.match(/[`]/g);
+  const matchAfter = chunks.after.match(/[`]/g);
+
+  if (matchBefore && matchBefore.length % 2) {
+    outfencedAfter = true;
+  }
+  if (matchAfter && matchAfter.length % 2) {
+    outfencedBefore = true;
+  }
+
+  return outfencedAfter && outfencedBefore;
+}
+
+export function isCodeBlock(chunks) {
+  let outfencedAfter = false;
+  let outfencedBefore = false;
+  const matchBefore = chunks.before.match(/```[/\n]/g);
+  const matchAfter = chunks.after.match(/[/\n]```/g);
+
+  if (matchBefore && matchBefore.length % 2) {
+    outfencedAfter = true;
+  }
+  if (matchAfter && matchAfter.length % 2) {
+    outfencedBefore = true;
+  }
+
+  return outfencedAfter && outfencedBefore;
+}
+
 export default function codeblock(chunks, isInline = false) {
   const newlined = rnewline.test(chunks.selection);
   const trailing = rtextafter.test(chunks.after);
@@ -20,12 +52,6 @@ export default function codeblock(chunks, isInline = false) {
   } else {
     return block(chunks, outfenced);
   }
-}
-
-export function isCodeblock(chunks) {
-  const outfenced = rfencebefore.test(chunks.before) && rfenceafter.test(chunks.after);
-
-  return outfenced;
 }
 
 function inline(chunks) {

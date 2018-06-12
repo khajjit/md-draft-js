@@ -1,11 +1,11 @@
-import bold, { isBold } from './bold';
-import italic, { isItalic } from './italic';
 import linkOrMedia from './linkOrMediaOrAttachment';
-import list from './list';
-import quote from './blockquote';
-import code, { isCodeblock } from './codeblock';
+import code, { isCodeInline, isCodeBlock } from './codeblock';
+import quote, { isBlockQoute } from './blockquote';
+import heading, { isHeading } from './heading';
+import italic, { isItalic } from './italic';
+import bold, { isBold } from './bold';
 import notebook from './notebook';
-import heading from './heading';
+import list from './list';
 import hr from './hr';
 
 export function applyCommand(editorState, command, metadata) {
@@ -47,8 +47,14 @@ export function isApplied(state, command) {
       return isBold(state);
     case 'italic':
       return isItalic(state);
-    case 'code':
-      return isCodeblock(state);
+    case 'quote':
+      return isBlockQoute(state);
+    case 'code-inline':
+      return isCodeInline(state);
+    case 'code-block':
+      return isCodeBlock(state);
+    case 'heading':
+      return isHeading(state);
     default:
       return false;
   }

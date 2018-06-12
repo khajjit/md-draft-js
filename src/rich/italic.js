@@ -33,13 +33,17 @@ export default function italic(chunks) {
 }
 
 export function isItalic(chunks) {
-  const rleading = /^(_*)/;
-  const rtrailing = /(_*$)/;
-  const rnewlines = /\n{2,}/g;
-  const result = trim(chunks);
-  const leadDash = rtrailing.exec(result.before)[0];
-  const trailDash = rleading.exec(result.after)[0];
-  const fence = Math.min(leadDash.length, trailDash.length);
+  let outfencedAfter = false;
+  let outfencedBefore = false;
+  const matchBefore = chunks.before.match(/_/g);
+  const matchAfter = chunks.after.match(/_/g);
 
-  return fence >= 1 || (!result.selection.replace(rnewlines, '\n') && trailDash);
+  if (matchBefore && matchBefore.length % 2) {
+    outfencedAfter = true;
+  }
+  if (matchAfter && matchAfter.length % 2) {
+    outfencedBefore = true;
+  }
+
+  return outfencedAfter && outfencedBefore;
 }
