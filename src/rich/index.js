@@ -27,7 +27,7 @@ export function applyCommand(editorState, command, metadata) {
     case 'notebook':
       return notebook(state, metadata);
     case 'ul':
-      return list(state);
+      return list(state, false);
     case 'ol':
       return list(state, true);
     case 'heading':
