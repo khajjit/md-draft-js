@@ -12,8 +12,13 @@ const rfenceafterinside = /\n```$/;
 export function isCodeInline(chunks) {
   let outfencedAfter = false;
   let outfencedBefore = false;
-  const matchBefore = chunks.before.match(/[`]/g);
-  const matchAfter = chunks.after.match(/[`]/g);
+
+  let strBefore = chunks.before.split('\n')
+  strBefore = strBefore[strBefore.length - 1]
+  let strAfter = chunks.after.split('\n')[0]
+
+  const matchBefore = strBefore.match(/[`]/g);
+  const matchAfter = strAfter.match(/[`]/g);
 
   if (matchBefore && matchBefore.length % 2) {
     outfencedAfter = true;
