@@ -4,8 +4,8 @@ import quote, { isBlockQoute } from './blockquote';
 import heading, { isHeading } from './heading';
 import italic, { isItalic } from './italic';
 import bold, { isBold } from './bold';
+import list, { isList } from './list';
 import notebook from './notebook';
-import list from './list';
 import hr from './hr';
 
 export function applyCommand(editorState, command, metadata) {
@@ -42,19 +42,29 @@ export function applyCommand(editorState, command, metadata) {
 }
 
 export function isApplied(state, command) {
+  let _strBefore = state.before.split('\n');
+  const inlineSelection = {
+    strBefore: _strBefore[_strBefore.length - 1],
+    strAfter: state.after.split('\n')[0]
+  };
+
   switch (command) {
     case 'bold':
-      return isBold(state);
+      return isBold(inlineSelection);
     case 'italic':
-      return isItalic(state);
+      return isItalic(inlineSelection);
     case 'quote':
-      return isBlockQoute(state);
+      return isBlockQoute(inlineSelection);
     case 'code-inline':
-      return isCodeInline(state);
+      return isCodeInline(inlineSelection);
     case 'code-block':
       return isCodeBlock(state);
     case 'heading':
       return isHeading(state);
+    case 'ul':
+      return isList(inlineSelection, false);
+    case 'ol':
+      return isList(inlineSelection, true);
     default:
       return false;
   }

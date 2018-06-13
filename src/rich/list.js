@@ -89,3 +89,18 @@ export default function list(chunks, ordered) {
     return text.replace(rmarkers, nextBullet);
   }
 }
+
+export function isList(inlineSelection, isOrdered) {
+  if (isOrdered === false) {
+    if (inlineSelection.strBefore.slice(0, 3) === ' - ') {
+      return true
+    }
+  } else {
+    const match = inlineSelection.strBefore.match(/[ ][\d][.][ ]/g)
+    if (match && match[0] === inlineSelection.strBefore.slice(0, match[0].length)) {
+      return true
+    }
+  }
+
+  return false
+}

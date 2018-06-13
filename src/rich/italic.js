@@ -32,16 +32,12 @@ export default function italic(chunks) {
   return result;
 }
 
-export function isItalic(chunks) {
+export function isItalic(inlineSelection) {
   let outfencedAfter = false;
   let outfencedBefore = false;
 
-  let strBefore = chunks.before.split('\n')
-  strBefore = strBefore[strBefore.length - 1]
-  let strAfter = chunks.after.split('\n')[0]
-
-  const matchBefore = strBefore.match(/_/g);
-  const matchAfter = strAfter.match(/_/g);
+  const matchBefore = inlineSelection.strBefore.match(/_/g);
+  const matchAfter = inlineSelection.strAfter.match(/_/g);
 
   if (matchBefore && matchBefore.length % 2) {
     outfencedAfter = true;
