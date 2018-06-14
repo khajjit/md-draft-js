@@ -33,18 +33,42 @@ export default function italic(chunks) {
 }
 
 export function isItalic(inlineSelection) {
-  let outfencedAfter = false;
-  let outfencedBefore = false;
+  const matchBefore = inlineSelection.strBefore.match(/[_](.*)/g);
+  const matchAfter = inlineSelection.strAfter.match(/(.*)[_]/g);
 
-  const matchBefore = inlineSelection.strBefore.match(/_/g);
-  const matchAfter = inlineSelection.strAfter.match(/_/g);
+  if (matchBefore && matchAfter) {
+    let flag1 = false, flag2 = false;
 
-  if (matchBefore && matchBefore.length % 2) {
-    outfencedAfter = true;
+    const before = matchBefore[0];
+    const arrBefore = before.split(' ');
+    const stringsBefore = inlineSelection.strBefore.split(' ');
+    if (
+      Array.isArray(arrBefore) &&
+      arrBefore[arrBefore.length - 1].split('_').length === 2 &&
+      arrBefore[arrBefore.length - 1][0] === '_' &&
+      stringsBefore[stringsBefore.length - 1] === arrBefore[arrBefore.length - 1]
+    ) {
+      flag1 = true
+    } else {
+      return false
+    }
+
+    const after = matchAfter[0];
+    const arrAfter = after.split(' ');
+    const stringsAfter = inlineSelection.strAfter.split(' ');
+    if (
+      Array.isArray(arrAfter) &&
+      arrAfter[0].split('_').length === 2 &&
+      arrAfter[0][arrAfter[0].length - 1] === '_' &&
+      stringsAfter[0] === arrAfter[0]
+    ) {
+      flag2 = true
+    } else {
+      return false
+    }
+
+    return flag1 && flag2;
   }
-  if (matchAfter && matchAfter.length % 2) {
-    outfencedBefore = true;
-  }
 
-  return outfencedAfter && outfencedBefore;
+  return false;
 }
