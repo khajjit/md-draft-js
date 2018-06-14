@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { applyCommand, isApplied } from '../rich';
 import { handleKey } from '../utils/handleKey';
 import { commands } from '../utils/constants';
 import { getChunks } from '../chunks';
@@ -40,6 +41,14 @@ export default class Editor extends React.Component {
   }
 
   handleKeyDown(e) {
+    if (e.which === 13) { // enter
+      if (isApplied(this.props.editorState, 'ul')) {
+        this.handleChange(null, applyCommand(this.props.editorState, 'ul'))
+      }
+      if (isApplied(this.props.editorState, 'ol')) {
+        this.handleChange(null, applyCommand(this.props.editorState, 'ol'))
+      }
+    }
     this.props.commands.forEach((command) => {
       if (command.combo && handleKey(e, command.combo)) {
         e.preventDefault();
@@ -48,11 +57,15 @@ export default class Editor extends React.Component {
     });
   }
 
-  handleChange(e) {
+  handleChange(e, _ownData) {
     const { onChange } = this.props;
-    const chunks = getChunks(e.target);
 
-    onChange(chunks);
+    if (!_ownData) {
+      const chunks = getChunks(e.target);
+      onChange(chunks);
+    } else {
+      onChange(_ownData)
+    }
   }
 
   render() {

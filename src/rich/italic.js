@@ -25,8 +25,17 @@ export default function italic(chunks) {
     }
 
     const markup = '_';
-    result.before += markup;
-    result.after = markup + result.after;
+
+    let strBefore = chunks.before.split('\n')
+    strBefore = strBefore[strBefore.length - 1]
+    let strAfter = chunks.after.split('\n')
+    strAfter = strAfter[0]
+
+    const spaceBefore = (!strBefore[strBefore.length - 1] || strBefore[strBefore.length - 1] === ' ') ? '' : ' '
+    const spaceAfter = (!strAfter[0] || strAfter[0] === ' ') ? '' : ' '
+
+    result.before += spaceBefore + markup;
+    result.after = markup + spaceAfter + result.after;
   }
 
   return result;
@@ -44,13 +53,12 @@ export function isItalic(inlineSelection) {
     const stringsBefore = inlineSelection.strBefore.split(' ');
     if (
       Array.isArray(arrBefore) &&
-      arrBefore[arrBefore.length - 1].split('_').length === 2 &&
+      arrBefore[arrBefore.length - 1].match(/[_]/g) &&
+      arrBefore[arrBefore.length - 1].match(/[_]/g).length === 1 &&
       arrBefore[arrBefore.length - 1][0] === '_' &&
       stringsBefore[stringsBefore.length - 1] === arrBefore[arrBefore.length - 1]
     ) {
       flag1 = true
-    } else {
-      return false
     }
 
     const after = matchAfter[0];
@@ -58,13 +66,12 @@ export function isItalic(inlineSelection) {
     const stringsAfter = inlineSelection.strAfter.split(' ');
     if (
       Array.isArray(arrAfter) &&
-      arrAfter[0].split('_').length === 2 &&
+      arrAfter[0].match(/[_]/g) &&
+      arrAfter[0].match(/[_]/g).length === 1 &&
       arrAfter[0][arrAfter[0].length - 1] === '_' &&
       stringsAfter[0] === arrAfter[0]
     ) {
       flag2 = true
-    } else {
-      return false
     }
 
     return flag1 && flag2;

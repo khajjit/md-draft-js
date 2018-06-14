@@ -27,26 +27,55 @@ export default function bold(chunks) {
     }
 
     const markup = '**';
-    result.before += markup;
-    result.after = markup + result.after;
+
+    let strBefore = chunks.before.split('\n')
+    strBefore = strBefore[strBefore.length - 1]
+    let strAfter = chunks.after.split('\n')
+    strAfter = strAfter[0]
+
+    const spaceBefore = (!strBefore[strBefore.length - 1] || strBefore[strBefore.length - 1] === ' ') ? '' : ' '
+    const spaceAfter = (!strAfter[0] || strAfter[0] === ' ') ? '' : ' '
+
+    result.before += spaceBefore + markup;
+    result.after = markup + spaceAfter + result.after;
   }
 
   return result;
 }
 
 export function isBold(inlineSelection) {
-  let outfencedAfter = false;
-  let outfencedBefore = false;
+  const matchBefore = inlineSelection.strBefore.match(/[*][*](.*)/g);
+  const matchAfter = inlineSelection.strAfter.match(/(.*)[*][*]/g);
 
-  const matchBefore = inlineSelection.strBefore.match(/\*\*/g);
-  const matchAfter = inlineSelection.strAfter.match(/\*\*/g);
+  if (matchBefore && matchAfter) {
+    let flag1 = false, flag2 = false;
 
-  if (matchBefore && matchBefore.length % 2) {
-    outfencedAfter = true;
+    const before = matchBefore[0];
+    const arrBefore = before.split(' ');
+    const stringsBefore = inlineSelection.strBefore.split(' ');
+    if (
+      Array.isArray(arrBefore) &&
+      arrBefore[arrBefore.length - 1].match(/[*][*]/g) &&
+      arrBefore[arrBefore.length - 1].match(/[*][*]/g).length === 1 &&
+      stringsBefore[stringsBefore.length - 1] === arrBefore[arrBefore.length - 1]
+    ) {
+      flag1 = true
+    }
+
+    const after = matchAfter[0];
+    const arrAfter = after.split(' ');
+    const stringsAfter = inlineSelection.strAfter.split(' ');
+    if (
+      Array.isArray(arrAfter) &&
+      arrAfter[0].match(/[*][*]/g) &&
+      arrAfter[0].match(/[*][*]/g).length === 1 &&
+      stringsAfter[0] === arrAfter[0]
+    ) {
+      flag2 = true
+    }
+
+    return flag1 && flag2;
   }
-  if (matchAfter && matchAfter.length % 2) {
-    outfencedBefore = true;
-  }
 
-  return outfencedAfter && outfencedBefore;
+  return false;
 }

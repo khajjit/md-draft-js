@@ -10,36 +10,36 @@ const rfenceafter = /^\n?```/;
 const rfenceafterinside = /\n```$/;
 
 export function isCodeInline(inlineSelection) {
-  let outfencedAfter = false;
-  let outfencedBefore = false;
+  const matchBefore = inlineSelection.strBefore.match(/[`](.*)/g);
+  const matchAfter = inlineSelection.strAfter.match(/(.*)[`]/g);
 
-  const matchBefore = inlineSelection.strBefore.match(/[`]/g);
-  const matchAfter = inlineSelection.strAfter.match(/[`]/g);
+  if (!matchBefore || !matchAfter) {
+    return false;
+  } else {
+    const stringsBefore = matchBefore[matchBefore.length - 1].split(' ');
+    const stringsAfter = matchAfter[0].split(' ');
 
-  if (matchBefore && matchBefore.length % 2) {
-    outfencedAfter = true;
+    const _matchBefore = stringsBefore[stringsBefore.length - 1];
+    const _matchAfter = stringsAfter[0];
+
+    if (
+      Array.isArray(_matchBefore) &&
+      _matchBefore && matchAfter &&
+      _matchBefore.match(/[`]/g).length % 2 &&
+      _matchAfter.match(/[`]/g).length % 2
+    ) {
+      return true;
+    }
   }
-  if (matchAfter && matchAfter.length % 2) {
-    outfencedBefore = true;
-  }
-
-  return outfencedAfter && outfencedBefore;
 }
 
 export function isCodeBlock(chunks) {
-  let outfencedAfter = false;
-  let outfencedBefore = false;
   const matchBefore = chunks.before.match(/```[/\n]/g);
   const matchAfter = chunks.after.match(/[/\n]```/g);
-
-  if (matchBefore && matchBefore.length % 2) {
-    outfencedAfter = true;
-  }
-  if (matchAfter && matchAfter.length % 2) {
-    outfencedBefore = true;
-  }
-
-  return outfencedAfter && outfencedBefore;
+  return (
+    matchBefore && matchAfter &&
+    matchBefore.length % 2 && matchAfter.length % 2
+  )
 }
 
 export default function codeblock(chunks, isInline = false) {
