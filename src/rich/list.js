@@ -96,7 +96,7 @@ export function isList(inlineSelection, isOrdered) {
       return true
     }
   } else {
-    const match = inlineSelection.strBefore.match(/[ ][\d][.][ ]/g)
+    const match = inlineSelection.strBefore.match(/[ ]([\d])*[.][ ]/g)
     if (match && match[0] === inlineSelection.strBefore.slice(0, match[0].length)) {
       return true
     }
