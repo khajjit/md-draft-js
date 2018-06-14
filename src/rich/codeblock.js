@@ -13,24 +13,23 @@ export function isCodeInline(inlineSelection) {
   const matchBefore = inlineSelection.strBefore.match(/[`](.*)/g);
   const matchAfter = inlineSelection.strAfter.match(/(.*)[`]/g);
 
-  if (!matchBefore || !matchAfter) {
-    return false;
-  } else {
+  if (matchBefore && matchAfter) {
     const stringsBefore = matchBefore[matchBefore.length - 1].split(' ');
     const stringsAfter = matchAfter[0].split(' ');
 
-    const _matchBefore = stringsBefore[stringsBefore.length - 1];
-    const _matchAfter = stringsAfter[0];
+    const _matchBefore = stringsBefore[stringsBefore.length - 1].match(/[`]/g);
+    const _matchAfter = stringsAfter[0].match(/[`]/g);
 
     if (
-      Array.isArray(_matchBefore) &&
-      _matchBefore && matchAfter &&
-      _matchBefore.match(/[`]/g).length % 2 &&
-      _matchAfter.match(/[`]/g).length % 2
+      _matchBefore && _matchAfter &&
+      _matchBefore.length % 2 &&
+      _matchAfter.length % 2
     ) {
       return true;
     }
   }
+
+  return false;
 }
 
 export function isCodeBlock(chunks) {
