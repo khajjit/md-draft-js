@@ -60,7 +60,7 @@ export function isApplied(state, command) {
     case 'code-block':
       return isCodeBlock(state);
     case 'heading':
-      return isHeading(state);
+      return isHeading(state, inlineSelection);
     case 'ul':
       return isList(inlineSelection, false);
     case 'ol':

@@ -1,6 +1,8 @@
 import { skip, findTags } from '../chunks';
 import many from '../utils/many';
 
+const numberOfDefaultHeader = 2
+
 export default function heading(chunks, level) {
   let calculatedLevel = 0;
   let result = Object.assign({}, chunks);
@@ -34,15 +36,23 @@ export default function heading(chunks, level) {
   return result;
 }
 
-export function isHeading(chunks) {
-  const matchBefore = chunks.before.match(/[#]{1,6} [^/\n]*$/g);
-  if (matchBefore) {
-    let i = 0
-    while (i < 6 && matchBefore[0][i] === '#') {
-      i++
-    }
-    return i
-  } else {
-    return false
+export function isHeading(chunks, inlineSelection) {
+  const matchBefore = inlineSelection.strBefore.match(/^[#]{1,6} (.*)$/g);
+  let nextLines = chunks.after.split('\n')
+
+  if (inlineSelection.strBefore.match(/[=][=](.*)/g) && inlineSelection.strAfter.match(/(.*)[=][=]/g)) {
+    return numberOfDefaultHeader
   }
+
+  if (nextLines && Array.isArray(nextLines) && nextLines[1]) {
+    if (nextLines[1].slice(0, 2) === '==') {
+      return numberOfDefaultHeader
+    }
+  }
+
+  if (matchBefore) {
+    return matchBefore[0].split(' ')[0].length
+  }
+
+  return false
 }
