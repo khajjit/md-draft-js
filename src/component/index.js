@@ -43,9 +43,11 @@ export default class Editor extends React.Component {
   handleKeyDown(e) {
     if (e.which === 13) { // enter
       if (isApplied(this.props.editorState, 'ul')) {
-        this.handleChange(null, applyCommand(this.props.editorState, 'ul'))
+        e.preventDefault();
+        this.handleChange(null, applyCommand(this.props.editorState, 'ul-enter'))
       }
       if (isApplied(this.props.editorState, 'ol')) {
+        e.preventDefault();
         this.handleChange(null, applyCommand(this.props.editorState, 'ol'))
       }
     }
