@@ -9,27 +9,42 @@ const rfencebeforeinside = /^```[a-z]*\n/;
 const rfenceafter = /^\n?```/;
 const rfenceafterinside = /\n```$/;
 
+// export function isCodeInline(inlineSelection) {
+//   const matchBefore = inlineSelection.strBefore.match(/[`](.*)/g);
+//   const matchAfter = inlineSelection.strAfter.match(/(.*)[`]/g);
+//
+//   if (matchBefore && matchAfter) {
+//     const stringsBefore = matchBefore[matchBefore.length - 1].split(' ');
+//     const stringsAfter = matchAfter[0].split(' ');
+//
+//     const _matchBefore = stringsBefore[stringsBefore.length - 1].match(/[`]/g);
+//     const _matchAfter = stringsAfter[0].match(/[`]/g);
+//
+//     if (
+//       _matchBefore && _matchAfter &&
+//       _matchBefore.length % 2 &&
+//       _matchAfter.length % 2
+//     ) {
+//       return true;
+//     }
+//   }
+//
+//   return false;
+// }
+
 export function isCodeInline(inlineSelection) {
-  const matchBefore = inlineSelection.strBefore.match(/[`](.*)/g);
-  const matchAfter = inlineSelection.strAfter.match(/(.*)[`]/g);
+  const matchBefore = inlineSelection.strBefore.match(/[`]/g);
+  const matchAfter = inlineSelection.strAfter.match(/[`]/g);
 
-  if (matchBefore && matchAfter) {
-    const stringsBefore = matchBefore[matchBefore.length - 1].split(' ');
-    const stringsAfter = matchAfter[0].split(' ');
-
-    const _matchBefore = stringsBefore[stringsBefore.length - 1].match(/[`]/g);
-    const _matchAfter = stringsAfter[0].match(/[`]/g);
-
-    if (
-      _matchBefore && _matchAfter &&
-      _matchBefore.length % 2 &&
-      _matchAfter.length % 2
-    ) {
-      return true;
-    }
+  if (
+    matchBefore && matchAfter &&
+    matchBefore.length % 2 &&
+    matchAfter.length % 2
+  ) {
+    return true
+  } else {
+    return false
   }
-
-  return false;
 }
 
 export function isCodeBlock(chunks) {
