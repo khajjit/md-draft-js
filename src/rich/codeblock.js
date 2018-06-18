@@ -32,9 +32,9 @@ const rfenceafterinside = /\n```$/;
 //   return false;
 // }
 
-export function isCodeInline(inlineSelection) {
-  const matchBefore = inlineSelection.strBefore.match(/[`]/g);
-  const matchAfter = inlineSelection.strAfter.match(/[`]/g);
+export function isCodeInline(chunks) {
+  const matchBefore = chunks.inlineSelection.strBefore.match(/[`]/g);
+  const matchAfter = chunks.inlineSelection.strAfter.match(/[`]/g);
 
   if (
     matchBefore && matchAfter &&

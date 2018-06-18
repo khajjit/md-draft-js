@@ -9,8 +9,8 @@ const rendtag = /^(((\n|^)(\n[ \t]*)*>(.+\n)*.*)+(\n[ \t]*)*)/;
 const rleadbracket = /^\n((>|\s)*)\n/;
 const rtrailbracket = /\n((>|\s)*)\n$/;
 
-export function isBlockQoute(inlineSelection) {
-  return inlineSelection.strBefore.slice(0, 2) === '> '
+export function isBlockQoute(chunks) {
+  return chunks.inlineSelection.strBefore.slice(0, 2) === '> '
 }
 
 export default function blockquote(chunks) {

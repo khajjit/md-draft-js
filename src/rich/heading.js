@@ -36,11 +36,11 @@ export default function heading(chunks, level) {
   return result;
 }
 
-export function isHeading(chunks, inlineSelection) {
-  const matchBefore = inlineSelection.strBefore.match(/^[#]{1,6} (.*)$/g);
+export function isHeading(chunks) {
+  const matchBefore = chunks.inlineSelection.strBefore.match(/^[#]{1,6} (.*)$/g);
   let nextLines = chunks.after.split('\n')
 
-  if (inlineSelection.strBefore.match(/[=][=](.*)/g) && inlineSelection.strAfter.match(/(.*)[=][=]/g)) {
+  if (chunks.inlineSelection.strBefore.match(/[=][=](.*)/g) && chunks.inlineSelection.strAfter.match(/(.*)[=][=]/g)) {
     return numberOfDefaultHeader
   }
 

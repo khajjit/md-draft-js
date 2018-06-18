@@ -9,16 +9,36 @@ export function getChunks(textarea) {
   const selection = fixEOL(textarea.value.substring(selectionInfo.start, selectionInfo.end));
   const after = fixEOL(textarea.value.substring(selectionInfo.end));
 
+  let _strBefore = before.split('\n');
+  const inlineSelection = {
+    strBefore: _strBefore[_strBefore.length - 1],
+    strAfter: after.split('\n')[0]
+  };
+
   return {
     before,
     after,
     selection,
+    inlineSelection,
     startTag: '',
     endTag: '',
     scrollTop: textarea.scrollTop,
     text: textarea.value,
     focus: false
   };
+}
+
+export function getOwnChunks(state) {
+  let _strBefore = state.before.split('\n');
+  const inlineSelection = {
+    strBefore: _strBefore[_strBefore.length - 1],
+    strAfter: state.after.split('\n')[0]
+  };
+
+  return {
+    ...state,
+    inlineSelection
+  }
 }
 
 export function findTags(state, startRegex, endRegex) {

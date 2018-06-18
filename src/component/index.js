@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { applyCommand, isApplied } from '../rich';
+import { getChunks, getOwnChunks } from '../chunks';
 import { handleKey } from '../utils/handleKey';
 import { commands } from '../utils/constants';
-import { getChunks } from '../chunks';
 import { setSelection } from '../utils/selection';
 import { getText } from '../state';
 
@@ -61,13 +61,8 @@ export default class Editor extends React.Component {
 
   handleChange(e, _ownData) {
     const { onChange } = this.props;
-
-    if (!_ownData) {
-      const chunks = getChunks(e.target);
-      onChange(chunks);
-    } else {
-      onChange(_ownData)
-    }
+    const chunks = _ownData ? getOwnChunks(_ownData) : getChunks(e.target);
+    onChange(chunks);
   }
 
   render() {

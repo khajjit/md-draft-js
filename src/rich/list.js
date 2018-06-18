@@ -90,14 +90,14 @@ export default function list(chunks, ordered) {
   }
 }
 
-export function isList(inlineSelection, isOrdered) {
+export function isList(chunks, isOrdered) {
   if (isOrdered === false) {
-    if (inlineSelection.strBefore.slice(0, 3) === ' - ') {
+    if (chunks.inlineSelection.strBefore.slice(0, 3) === ' - ') {
       return true
     }
   } else {
-    const match = inlineSelection.strBefore.match(/[ ]([\d])*[.][ ]/g)
-    if (match && match[0] === inlineSelection.strBefore.slice(0, match[0].length)) {
+    const match = chunks.inlineSelection.strBefore.match(/[ ]([\d])*[.][ ]/g)
+    if (match && match[0] === chunks.inlineSelection.strBefore.slice(0, match[0].length)) {
       return true
     }
   }

@@ -8,7 +8,11 @@ export function createEmpty() {
     scrollTop: 0,
     start: 0,
     end: 0,
-    focus: false
+    focus: false,
+    inlineSelection: {
+      strBefore: '',
+      strAfter: ''
+    }
   };
 }
 

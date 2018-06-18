@@ -44,9 +44,9 @@ export default function italic(chunks) {
   return result;
 }
 
-export function isItalic(inlineSelection) {
-  const matchBefore = inlineSelection.strBefore.match(/[_]/g);
-  const matchAfter = inlineSelection.strAfter.match(/[_]/g);
+export function isItalic(chunks) {
+  const matchBefore = chunks.inlineSelection.strBefore.match(/[_]/g);
+  const matchAfter = chunks.inlineSelection.strAfter.match(/[_]/g);
 
   if (
     matchBefore && matchAfter &&

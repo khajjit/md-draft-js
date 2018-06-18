@@ -42,29 +42,23 @@ export function applyCommand(editorState, command, metadata) {
 }
 
 export function isApplied(state, command) {
-  let _strBefore = state.before.split('\n');
-  const inlineSelection = {
-    strBefore: _strBefore[_strBefore.length - 1],
-    strAfter: state.after.split('\n')[0]
-  };
-
   switch (command) {
     case 'bold':
-      return isBold(inlineSelection);
+      return isBold(state);
     case 'italic':
-      return isItalic(inlineSelection);
+      return isItalic(state);
     case 'quote':
-      return isBlockQoute(inlineSelection);
+      return isBlockQoute(state);
     case 'code-inline':
-      return isCodeInline(inlineSelection);
+      return isCodeInline(state);
     case 'code-block':
       return isCodeBlock(state);
     case 'heading':
-      return isHeading(state, inlineSelection);
+      return isHeading(state);
     case 'ul':
-      return isList(inlineSelection, false);
+      return isList(state, false);
     case 'ol':
-      return isList(inlineSelection, true);
+      return isList(state, true);
     default:
       return false;
   }
