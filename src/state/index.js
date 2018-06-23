@@ -23,7 +23,8 @@ export function createWithContent(initialState) {
     result = initialState;
   } else if (typeof initialState === 'string') {
     result = {
-      before: initialState
+      before: initialState,
+      text: initialState
     };
   } else if (typeof initialState === 'object') {
     result = initialState;

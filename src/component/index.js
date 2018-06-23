@@ -33,7 +33,7 @@ export default class Editor extends React.Component {
     ];
 
     return nextProps.className !== this.props.className ||
-      props.some(prop => nextProps.editorState[prop] !== this.props[prop]);
+      props.some(prop => nextProps.editorState[prop] !== this.props.editorState[prop]);
   }
 
   componentDidUpdate() {

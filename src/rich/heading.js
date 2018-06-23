@@ -1,7 +1,7 @@
 import { skip, findTags } from '../chunks';
 import many from '../utils/many';
 
-const numberOfDefaultHeader = 2
+const numberOfDefaultHeader = '2'
 
 export default function heading(chunks, level) {
   let calculatedLevel = 0;
@@ -45,13 +45,13 @@ export function isHeading(chunks) {
   }
 
   if (nextLines && Array.isArray(nextLines) && nextLines[1]) {
-    if (nextLines[1].slice(0, 2) === '==') {
+    if (nextLines[1].slice(0, 2) === '==' && nextLines[1].replace(/[ ]/g, '').length === 2) {
       return numberOfDefaultHeader
     }
   }
 
   if (matchBefore) {
-    return matchBefore[0].split(' ')[0].length
+    return matchBefore[0].split(' ')[0].length.toString()
   }
 
   return false
